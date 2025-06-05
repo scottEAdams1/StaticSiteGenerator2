@@ -1,9 +1,9 @@
 import unittest
 from textnode import TextNode, TextType
-from inline_markdown import split_nodes_delimiter
+from inline_markdown import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
 
 
-class TestTextNode(unittest.TestCase):
+class TestSplitNode(unittest.TestCase):
     def test_eq(self):
         node = TextNode("This is text with a `code block` word", TextType.TEXT)
         node2 = TextNode("This is text with a `code block` word", TextType.TEXT)
@@ -53,7 +53,18 @@ class TestTextNode(unittest.TestCase):
                 ]
         self.assertEqual(new_nodes, array)
 
+class TestExtract(unittest.TestCase):
+    def test_extract_markdown_images(self):
+        matches = extract_markdown_images(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+        )
+        self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
 
+    def test_extract_markdown_links(self):
+        matches = extract_markdown_links(
+            "This is text with an [link](https://google.com)"
+        )
+        self.assertListEqual([("link", "https://google.com")], matches)
 
 if __name__ == '__main__':
     unittest.main()

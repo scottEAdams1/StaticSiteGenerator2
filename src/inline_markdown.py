@@ -1,4 +1,5 @@
 from textnode import TextType, TextNode
+import re
 
 
 #Splits textnode of markdown into several textnodes
@@ -62,5 +63,15 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         #Append final part of text
         elif node.text[start:len(node.text)] != '':
             new_nodes.append(TextNode(node.text[start:len(node.text)], node.text_type))
-            
+
     return new_nodes
+
+
+def extract_markdown_images(text):
+    matches = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return matches
+
+
+def extract_markdown_links(text):
+    matches = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return matches
