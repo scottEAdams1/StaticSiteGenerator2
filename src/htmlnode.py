@@ -11,9 +11,11 @@ class HTMLNode:
     def props_to_html(self):
         if self.props == None:
             return ''
+        
         string = ''
         for k, v in self.props.items():
             string += f' {k}="{v}"'
+
         return string
     
     def __repr__(self):
@@ -29,8 +31,10 @@ class LeafNode(HTMLNode):
     def to_html(self):
         if self.value == None:
             raise ValueError('No value given')
+        
         if self.tag == None:
             return self.value
+        
         return f'<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>'
     
     def __repr__(self):
@@ -45,13 +49,16 @@ class ParentNode(HTMLNode):
     def to_html(self):
         if self.tag == None:
             raise ValueError('No tag given')
+        
         if self.children == None:
             raise ValueError('No children found')
+        
         string = ''
         string += f'<{self.tag}{self.props_to_html()}>'
         for child in self.children:
             string += child.to_html()
         string += f'</{self.tag}>'
+        
         return string
     
     def __repr__(self):
