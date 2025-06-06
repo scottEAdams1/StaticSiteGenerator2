@@ -142,7 +142,7 @@ def markdown_to_html_node(markdown):
                 lines = block.split('\n')
                 for line in lines:
                     line = line[2:]
-                    child = LeafNode('li', line)
+                    child = ParentNode('li', text_to_children(line))
                     children.append(child)
                 tag = 'ul'
             case BlockType.ORDERED_LIST:
@@ -151,7 +151,7 @@ def markdown_to_html_node(markdown):
                 for line in lines:
                     line = line.lstrip('0123456789')
                     line = line[2:]
-                    child = LeafNode('li', line)
+                    child = ParentNode('li', text_to_children(line))
                     children.append(child)
                 tag = 'ol'
         node = ParentNode(tag, children, None)
